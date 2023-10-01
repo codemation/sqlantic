@@ -1,0 +1,37 @@
+name: Package and Release on PyPI
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  package:
+    name: Package Release to PyPI
+    runs-on: ubuntu-latest
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Set Tag for RELEASE_VERSION
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install Packaging dependencies
+        run: |
+          pip install wheel twine
+
+      - name: Package & Test PyPI Installation
+        run: |
+          export NEXT_VERSION=${{ env.RELEASE_VERSION }}
+          sed -i 's/NEXT_VERSION/'$NEXT_VERSION'/g' setup.py
+          python setup.py bdist_wheel
+          export PYQL_PACKAGE=$(pwd)/dist/sqlorm-$NEXT_VERSION-py3-none-any.whl
+          pip install $(echo -n $PYQL_PACKAGE)
+
+      - name: Upload to PyPi
+        env: # Or as an environment variable
+          PYPI: ${{ secrets.PYPI }}
+        run: |
+          export NEXT_VERSION=${{ env.RELEASE_VERSION }}
+          python -m twine upload $(pwd)/dist/sqlorm-$NEXT_VERSION-py3-none-any.whl -u codemation -p $PYPI

@@ -1,0 +1,14 @@
+version: '3.2'
+
+services:
+  postgres:
+    image: postgres:11.16-alpine
+    container_name: pydbantic-postgres
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: database
+    command: postgres -c fsync=no -c full_page_writes=no -c 'max_connections=250'
+    ports:
+      - "5432:5432"
