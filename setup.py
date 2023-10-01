@@ -7,13 +7,13 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="sqlorm",
     version="NEXT_VERSION",
-    packages=setuptools.find_packages(include=["pydbantic"], exclude=["build"]),
+    packages=setuptools.find_packages(include=["sqlorm"], exclude=["build"]),
     author="Joshua Jamison",
     author_email="joshjamison1@gmail.com",
-    description="'db' within pydantic - A single model for shaping, creating, accessing, storing data within a Database",
+    description="Lightweight Extension of SqlAlchemy with Dynamic Pydantic V2 Models",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/codemation/pydbantic",
+    url="https://github.com/codemation/sqlorm",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -24,13 +24,5 @@ setuptools.setup(
     ],
     python_requires=">=3.7, <4",
     install_requires=BASE_REQUIREMENTS,
-    extras_require={
-        "all": BASE_REQUIREMENTS
-        + POSTGRES_REQUIREMENTS
-        + MYSQL_REQUIREMENTS
-        + LITE_REQUIREMENTS,
-        "postgres": POSTGRES_REQUIREMENTS,
-        "mysql": MYSQL_REQUIREMENTS,
-        "sqlite": LITE_REQUIREMENTS,
-    },
+    extras_require={"all": BASE_REQUIREMENTS},
 )
