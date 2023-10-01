@@ -26,7 +26,7 @@ jobs:
           export NEXT_VERSION=${{ env.RELEASE_VERSION }}
           sed -i 's/NEXT_VERSION/'$NEXT_VERSION'/g' setup.py
           python setup.py bdist_wheel
-          export PYQL_PACKAGE=$(pwd)/dist/sqlorm-$NEXT_VERSION-py3-none-any.whl
+          export PYQL_PACKAGE=$(pwd)/dist/sqlantic-$NEXT_VERSION-py3-none-any.whl
           pip install $(echo -n $PYQL_PACKAGE)
 
       - name: Upload to PyPi
@@ -34,4 +34,4 @@ jobs:
           PYPI: ${{ secrets.PYPI }}
         run: |
           export NEXT_VERSION=${{ env.RELEASE_VERSION }}
-          python -m twine upload $(pwd)/dist/sqlorm-$NEXT_VERSION-py3-none-any.whl -u codemation -p $PYPI
+          python -m twine upload $(pwd)/dist/sqlantic-$NEXT_VERSION-py3-none-any.whl -u codemation -p $PYPI
